@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AZ-900 Flashcards</title>
+    <link rel="stylesheet" href="assets/styles/styles.css">
+       
+</head>
+
+<body>
+    <nav id="navbar">
+        <div class="navbar-content">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#flashcards-section">Flashcards</a></li>
+                <li><a href="#">About</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section id="title-section">
+        <h1>AZ-900 Flashcards</h1>
+    </section>
+
+    <section id="description-section">
+        <p>Test your knowledge of Azure fundamentals with these flashcards!</p>
+    </section>
+
+    <section id="about-section">
+        <h2>About</h2>
+        <p>This project helps you prepare for the Microsoft Azure AZ-900 certification by providing interactive flashcards covering all key topics.</p>
+    </section>
+
+    <section id="flashcards-section">
+        <div id="card">
+            <div id="topic"></div>
+            <h2 id="question">Loading...</h2>
+            <p id="answer" style="display:none;">Answer</p>
+
+            <div class="buttons">
+                <button id="showBtn">Show Answer</button>
+                <button id="nextBtn">Next</button>
+            </div>
+
+            <div id="progress"></div>
+        </div>
+    </section>
+
+<script>
+    // --- AZ-900 FLASHCARDS ---
+
+    const flashcards = [
+        // CLOUD CONCEPTS
+        { question: "What is elasticity in cloud computing?", answer: "The ability to automatically scale resources up or down based on demand.", topic: "Cloud Concepts" },
+        { question: "What is scalability?", answer: "The ability to increase resources to meet higher demand.", topic: "Cloud Concepts" },
+        { question: "What is high availability?", answer: "Ensuring services remain accessible even during failures.", topic: "Cloud Concepts" },
+        { question: "What is fault tolerance?", answer: "The ability of a system to continue operating even if components fail.", topic: "Cloud Concepts" },
+        { question: "What is CapEx?", answer: "Capital Expenditure — upfront spending on physical infrastructure.", topic: "Cloud Concepts" },
+        { question: "What is OpEx?", answer: "Operational Expenditure — pay-as-you-go cloud spending.", topic: "Cloud Concepts" },
+        { question: "What is the shared responsibility model?", answer: "Azure manages the cloud; customers manage what they put in the cloud.", topic: "Cloud Concepts" },
+        { question: "What is a public cloud?", answer: "Cloud resources delivered over the internet and shared across tenants.", topic: "Cloud Concepts" },
+        { question: "What is a private cloud?", answer: "Cloud resources used exclusively by one organization.", topic: "Cloud Concepts" },
+        { question: "What is a hybrid cloud?", answer: "A mix of on-premises and cloud environments.", topic: "Cloud Concepts" },
+        { question: "What is IaaS?", answer: "Infrastructure as a Service — virtual machines, networking, storage.", topic: "Cloud Concepts" },
+        { question: "What is PaaS?", answer: "Platform as a Service — managed hosting for apps.", topic: "Cloud Concepts" },
+        { question: "What is SaaS?", answer: "Software as a Service — fully managed applications.", topic: "Cloud Concepts" },
+        { question: "What is serverless computing?", answer: "Running code without managing servers.", topic: "Cloud Concepts" },
+        { question: "What is cloud agility?", answer: "The ability to quickly deploy and configure cloud resources.", topic: "Cloud Concepts" },
+
+        // COMPUTE
+        { question: "What is Azure Virtual Machines?", answer: "On-demand scalable virtual servers.", topic: "Compute" },
+        { question: "What is Azure App Service?", answer: "A PaaS offering for hosting web apps.", topic: "Compute" },
+        { question: "What is Azure Functions?", answer: "A serverless compute service.", topic: "Compute" },
+        { question: "What is Azure Kubernetes Service (AKS)?", answer: "A managed Kubernetes container orchestration service.", topic: "Compute" },
+        { question: "What is Azure Container Instances?", answer: "A fast, serverless container runtime.", topic: "Compute" },
+        { question: "What is Azure Batch?", answer: "A service for large-scale parallel and HPC workloads.", topic: "Compute" },
+        { question: "What is a VM scale set?", answer: "A group of identical VMs that automatically scale.", topic: "Compute" },
+        { question: "What is Azure Dedicated Host?", answer: "Physical servers dedicated to one customer.", topic: "Compute" },
+
+        // NETWORKING
+        { question: "What is a virtual network (VNet)?", answer: "A logically isolated network in Azure.", topic: "Networking" },
+        { question: "What is a subnet?", answer: "A segment of a virtual network.", topic: "Networking" },
+        { question: "What is Azure Load Balancer?", answer: "A Layer 4 load balancer for distributing traffic.", topic: "Networking" },
+        { question: "What is Azure Application Gateway?", answer: "A Layer 7 load balancer with WAF support.", topic: "Networking" },
+        { question: "What is Azure DNS?", answer: "A DNS hosting service.", topic: "Networking" },
+        { question: "What is Azure ExpressRoute?", answer: "A private connection between on-premises and Azure.", topic: "Networking" },
+        { question: "What is Azure VPN Gateway?", answer: "A gateway for encrypted site-to-site or point-to-site VPNs.", topic: "Networking" },
+        { question: "What is a network security group (NSG)?", answer: "A firewall-like filter for network traffic.", topic: "Networking" },
+        { question: "What is Azure Front Door?", answer: "A global load balancer and CDN service.", topic: "Networking" },
+        { question: "What is Azure Traffic Manager?", answer: "A DNS-based traffic routing service.", topic: "Networking" },
+
+        // STORAGE
+        { question: "What is Azure Blob Storage?", answer: "Object storage for unstructured data.", topic: "Storage" },
+        { question: "What is Azure File Storage?", answer: "Managed file shares accessible via SMB.", topic: "Storage" },
+        { question: "What is Azure Disk Storage?", answer: "Persistent disks for VMs.", topic: "Storage" },
+        { question: "What is Azure Queue Storage?", answer: "Message queueing for distributed apps.", topic: "Storage" },
+        { question: "What is Azure Table Storage?", answer: "NoSQL key-value storage.", topic: "Storage" },
+        { question: "What is the Hot access tier?", answer: "Optimized for frequently accessed data.", topic: "Storage" },
+        { question: "What is the Cool access tier?", answer: "Optimized for infrequently accessed data.", topic: "Storage" },
+        { question: "What is the Archive tier?", answer: "Lowest-cost storage for rarely accessed data.", topic: "Storage" },
+        { question: "What is Azure Storage redundancy?", answer: "Replication options like LRS, ZRS, GRS.", topic: "Storage" },
+
+        // DATABASES
+        { question: "What is Azure SQL Database?", answer: "A fully managed relational database service.", topic: "Databases" },
+        { question: "What is Azure Cosmos DB?", answer: "A globally distributed NoSQL database.", topic: "Databases" },
+        { question: "What is Azure SQL Managed Instance?", answer: "A managed SQL Server instance.", topic: "Databases" },
+        { question: "What is Azure Database for PostgreSQL?", answer: "A managed PostgreSQL database.", topic: "Databases" },
+        { question: "What is Azure Database for MySQL?", answer: "A managed MySQL database.", topic: "Databases" },
+        { question: "What is Azure Synapse Analytics?", answer: "A unified analytics platform.", topic: "Databases" },
+        { question: "What is Azure Data Lake Storage?", answer: "A scalable data lake for big data analytics.", topic: "Databases" },
+
+        // SECURITY & IDENTITY
+        { question: "What is Azure Active Directory?", answer: "Microsoft’s cloud identity and access service.", topic: "Security & Identity" },
+        { question: "What is MFA?", answer: "Multi-factor authentication.", topic: "Security & Identity" },
+        { question: "What is Conditional Access?", answer: "Automated access control policies.", topic: "Security & Identity" },
+        { question: "What is Zero Trust?", answer: "Never trust, always verify.", topic: "Security & Identity" },
+        { question: "What is Azure Key Vault?", answer: "A service for managing secrets, keys, and certificates.", topic: "Security & Identity" },
+        { question: "What is Azure Security Center?", answer: "A unified security management system.", topic: "Security & Identity" },
+        { question: "What is Microsoft Defender for Cloud?", answer: "Threat protection for cloud workloads.", topic: "Security & Identity" },
+        { question: "What is Azure Firewall?", answer: "A managed network firewall service.", topic: "Security & Identity" },
+        { question: "What is DDoS Protection?", answer: "Protection against distributed denial-of-service attacks.", topic: "Security & Identity" },
+        { question: "What is role-based access control (RBAC)?", answer: "Authorization based on roles.", topic: "Security & Identity" },
+        { question: "What is a service principal?", answer: "An identity used by apps or services.", topic: "Security & Identity" },
+        { question: "What is identity governance?", answer: "Managing identity lifecycle and access.", topic: "Security & Identity" },
+
+        // MANAGEMENT & GOVERNANCE
+        { question: "What is Azure Resource Manager (ARM)?", answer: "The deployment and management service for Azure.", topic: "Management & Governance" },
+        { question: "What is a resource group?", answer: "A container for related Azure resources.", topic: "Management & Governance" },
+        { question: "What are ARM templates?", answer: "JSON files for deploying Azure resources.", topic: "Management & Governance" },
+        { question: "What is Azure Policy?", answer: "A service for enforcing organizational standards.", topic: "Management & Governance" },
+        { question: "What are Azure Blueprints?", answer: "Templates for deploying compliant environments.", topic: "Management & Governance" },
+        { question: "What are tags?", answer: "Metadata for organizing resources.", topic: "Management & Governance" },
+        { question: "What is Azure Monitor?", answer: "A platform for collecting and analyzing telemetry.", topic: "Management & Governance" },
+        { question: "What is Log Analytics?", answer: "A tool for querying and analyzing logs.", topic: "Management & Governance" },
+        { question: "What is Azure Advisor?", answer: "A recommendation engine for best practices.", topic: "Management & Governance" },
+        { question: "What is Azure Service Health?", answer: "A dashboard showing Azure service issues.", topic: "Management & Governance" },
+
+        // COST MANAGEMENT & SLAs
+        { question: "What is Azure Pricing Calculator?", answer: "A tool to estimate Azure costs.", topic: "Cost Management" },
+        { question: "What is Azure TCO Calculator?", answer: "A tool to estimate cost savings vs on-premises.", topic: "Cost Management" },
+        { question: "What is Azure Cost Management?", answer: "A tool for tracking and optimizing cloud spending.", topic: "Cost Management" },
+        { question: "What is an SLA?", answer: "A service-level agreement defining uptime guarantees.", topic: "Cost Management" },
+        { question: "What is the Azure free account credit?", answer: "$200 for 30 days.", topic: "Cost Management" },
+        { question: "What is service lifecycle?", answer: "Preview → GA → Retirement.", topic: "Cost Management" },
+        { question: "What is a usage meter?", answer: "Tracks consumption for billing.", topic: "Cost Management" },
+        { question: "What is reservation pricing?", answer: "Discounted pricing for 1–3 year commitments.", topic: "Cost Management" },
+        { question: "What is spot pricing?", answer: "Deeply discounted unused compute capacity.", topic: "Cost Management" },
+        { question: "What is total cost of ownership (TCO)?", answer: "The full cost of owning infrastructure.", topic: "Cost Management" }
+    ];
+
+    // --- RANDOMISED FULL-COURSE MODE ---
+
+    function shuffleDeck(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+    }
+
+    let randomizedDeck = [...flashcards];
+    shuffleDeck(randomizedDeck);
+
+    let currentIndex = 0;
+
+    function updateProgress() {
+        const progress = document.getElementById("progress");
+        progress.textContent = `Card ${currentIndex + 1} of ${randomizedDeck.length}`;
+    }
+
+    function loadCard() {
+        const card = randomizedDeck[currentIndex];
+        document.getElementById("question").textContent = card.question;
+        document.getElementById("answer").style.display = "none";
+        document.getElementById("answer").textContent = card.answer;
+        document.getElementById("topic").textContent = card.topic;
+        updateProgress();
+    }
+
+
+    const showBtn = document.getElementById("showBtn");
+    const answerElem = document.getElementById("answer");
+    showBtn.addEventListener("click", () => {
+        if (answerElem.style.display === "block") {
+            answerElem.style.display = "none";
+            showBtn.textContent = "Show Answer";
+        } else {
+            answerElem.style.display = "block";
+            showBtn.textContent = "Hide Answer";
+        }
+    });
+
+
+    document.getElementById("nextBtn").addEventListener("click", () => {
+        currentIndex++;
+        if (currentIndex >= randomizedDeck.length) {
+            currentIndex = 0;
+            randomizedDeck = [...flashcards];
+            shuffleDeck(randomizedDeck);
+        }
+        loadCard();
+        // Reset showBtn state on next card
+        answerElem.style.display = "none";
+        showBtn.textContent = "Show Answer";
+    });
+
+    loadCard();
+</script>
+
+</body>
+
+<footer id="footer">
+    <div class="footer-content">
+        <span>Connect with us:</span>
+        <a href="https://twitter.com/" target="_blank" aria-label="Twitter"><img src="assets/images/twitter.svg" alt="Twitter" class="social-icon"></a>
+        <a href="https://facebook.com/" target="_blank" aria-label="Facebook"><img src="assets/images/facebook.svg" alt="Facebook" class="social-icon"></a>
+        <a href="https://github.com/" target="_blank" aria-label="GitHub"><img src="assets/images/github.svg" alt="GitHub" class="social-icon"></a>
+    </div>
+</footer>
+</html>
