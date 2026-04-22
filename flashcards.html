@@ -9,39 +9,40 @@
 <body>
     <nav id="navbar">
         <div class="navbar-content">
-            <ul>
-                <li><a href="#title-section">Home</a></li>
-                <li><a href="#flashcards-section">Flashcards</a></li>
-                <li><a href="#about-section">About</a></li>
-            </ul>
+            <button class="tablink" onclick="openPage('title-section', this)" id="defaultOpen">Home</button>
+            <button class="tablink" onclick="openPage('flashcards-section', this)">Flashcards</button>
+            <button class="tablink" onclick="openPage('about-section', this)">About</button>
         </div>
     </nav>
 
-    <section id="title-section">
-        <h1>AZ-900 Flashcards</h1>
-        <div>Test your knowledge of Azure fundamentals with these flashcards!</div>
-    </section>
+    <main id="tab-pages">
+        <section id="title-section" class="tabcontent">
+            <h1>AZ-900 Flashcards</h1>
+            <div>Test your knowledge of Azure fundamentals with these flashcards!</div>
+            <div class="have-fun-text">Have Fun! 🎉</div>
+        </section>
 
-    <section id="about-section">
-        <h2>About</h2>
-        <p>This project has been coded and designed by one of The Cloud Workshop Studio Team Members to help <strong>YOU</strong> to prepare for the Microsoft Azure AZ-900 certification by providing interactive flashcards covering all key topics.</p>
-         <p>It is designed to make learning engaging and efficient, allowing you to test your knowledge and track your progress.</p>
-    </section>
+        <section id="about-section" class="tabcontent">
+            <h2>About</h2>
+            <p>This project has been coded and designed by one of The Cloud Workshop Studio Team Members to help <strong>YOU</strong> to prepare for the Microsoft Azure AZ-900 certification by providing interactive flashcards covering all key topics.</p>
+             <p>It is designed to make learning engaging and efficient, allowing you to test your knowledge and track your progress.</p>
+        </section>
 
-    <section id="flashcards-section">
-        <div id="card">
-            <div id="topic"></div>
-            <h2 id="question">Loading...</h2>
-            <p id="answer">Answer</p>
+        <section id="flashcards-section" class="tabcontent">
+            <div id="card">
+                <div id="topic"></div>
+                <h2 id="question">Loading...</h2>
+                <p id="answer">Answer</p>
 
-            <div class="buttons">
-                <button id="showBtn">Show Answer</button>
-                <button id="nextBtn">Next</button>
+                <div class="buttons">
+                    <button id="showBtn">Show Answer</button>
+                    <button id="nextBtn">Next</button>
+                </div>
+
+                <div id="progress"></div>
             </div>
-
-            <div id="progress"></div>
-        </div>
-    </section>
+        </section>
+    </main>
 
 <script>
     // --- AZ-900 FLASHCARDS ---
@@ -203,9 +204,24 @@
         showBtn.textContent = "Show Answer";
     });
 
+    function openPage(pageId, element) {
+        const pages = document.getElementsByClassName("tabcontent");
+        for (let index = 0; index < pages.length; index++) {
+            pages[index].style.display = "none";
+        }
+
+        const tablinks = document.getElementsByClassName("tablink");
+        for (let index = 0; index < tablinks.length; index++) {
+            tablinks[index].classList.remove("active");
+        }
+
+        document.getElementById(pageId).style.display = "block";
+        element.classList.add("active");
+    }
+
     loadCard();
+    document.getElementById("defaultOpen").click();
 </script>
-    <img src="assets/images/logo.png" alt="AZ-900 Logo" id="side-logo">
     <footer id="footer">
         <div class="footer-content">
             <span>Contact us:</span>
