@@ -4,38 +4,35 @@
     <meta charset="UTF-8">
     <title>AZ-900 Flashcards</title>
     <link rel="stylesheet" href="assets/styles/styles.css">
-       
 </head>
 
 <body>
     <nav id="navbar">
         <div class="navbar-content">
             <ul>
-                <li><a href="#">Home</a></li>
+                <li><a href="#title-section">Home</a></li>
                 <li><a href="#flashcards-section">Flashcards</a></li>
-                <li><a href="#">About</a></li>
+                <li><a href="#about-section">About</a></li>
             </ul>
         </div>
     </nav>
 
     <section id="title-section">
         <h1>AZ-900 Flashcards</h1>
-    </section>
-
-    <section id="description-section">
-        <p>Test your knowledge of Azure fundamentals with these flashcards!</p>
+        <div>Test your knowledge of Azure fundamentals with these flashcards!</div>
     </section>
 
     <section id="about-section">
         <h2>About</h2>
-        <p>This project helps you prepare for the Microsoft Azure AZ-900 certification by providing interactive flashcards covering all key topics.</p>
+        <p>This project has been coded and designed by one of The Cloud Workshop Studio Team Members to help <strong>YOU</strong> to prepare for the Microsoft Azure AZ-900 certification by providing interactive flashcards covering all key topics.</p>
+         <p>It is designed to make learning engaging and efficient, allowing you to test your knowledge and track your progress.</p>
     </section>
 
     <section id="flashcards-section">
         <div id="card">
             <div id="topic"></div>
             <h2 id="question">Loading...</h2>
-            <p id="answer" style="display:none;">Answer</p>
+            <p id="answer">Answer</p>
 
             <div class="buttons">
                 <button id="showBtn">Show Answer</button>
@@ -157,28 +154,31 @@
         }
     }
 
+    const questionElem = document.getElementById("question");
+    const answerElem = document.getElementById("answer");
+    const topicElem = document.getElementById("topic");
+    const progressElem = document.getElementById("progress");
+    const showBtn = document.getElementById("showBtn");
+    const nextBtn = document.getElementById("nextBtn");
+
     let randomizedDeck = [...flashcards];
     shuffleDeck(randomizedDeck);
 
     let currentIndex = 0;
 
     function updateProgress() {
-        const progress = document.getElementById("progress");
-        progress.textContent = `Card ${currentIndex + 1} of ${randomizedDeck.length}`;
+        progressElem.textContent = `Card ${currentIndex + 1} of ${randomizedDeck.length}`;
     }
 
     function loadCard() {
         const card = randomizedDeck[currentIndex];
-        document.getElementById("question").textContent = card.question;
-        document.getElementById("answer").style.display = "none";
-        document.getElementById("answer").textContent = card.answer;
-        document.getElementById("topic").textContent = card.topic;
+        questionElem.textContent = card.question;
+        answerElem.style.display = "none";
+        answerElem.textContent = card.answer;
+        topicElem.textContent = card.topic;
         updateProgress();
     }
 
-
-    const showBtn = document.getElementById("showBtn");
-    const answerElem = document.getElementById("answer");
     showBtn.addEventListener("click", () => {
         if (answerElem.style.display === "block") {
             answerElem.style.display = "none";
@@ -190,7 +190,7 @@
     });
 
 
-    document.getElementById("nextBtn").addEventListener("click", () => {
+    nextBtn.addEventListener("click", () => {
         currentIndex++;
         if (currentIndex >= randomizedDeck.length) {
             currentIndex = 0;
@@ -205,15 +205,26 @@
 
     loadCard();
 </script>
-
+    <img src="assets/images/logo.png" alt="AZ-900 Logo" id="side-logo">
+    <footer id="footer">
+        <div class="footer-content">
+            <span>Contact us:</span>
+            <a class="contact-link" href="mailto:contact@thecloudworkshop.tech" aria-label="Email The Cloud Workshop Studio">
+                <svg class="social-icon" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                    <path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v.2l-10 6.25L2 6.2V6zm0 2.55V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8.55l-9.47 5.92a1 1 0 0 1-1.06 0L2 8.55z"></path>
+                </svg>
+            </a>
+            <a class="contact-link" href="https://www.facebook.com/people/The-Cloud-Workshop-Studio/61583766373101/" target="_blank" rel="noopener noreferrer" aria-label="The Cloud Workshop Studio on Facebook">
+                <svg class="social-icon" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                    <path d="M13.5 22v-8h2.7l.4-3h-3.1V9.1c0-.9.3-1.5 1.6-1.5h1.7V5a22 22 0 0 0-2.5-.1c-2.5 0-4.1 1.5-4.1 4.4V11H7.5v3h2.7v8h3.3z"></path>
+                </svg>
+            </a>
+            <a class="contact-link" href="https://www.youtube.com/@thecloudworkshop/videos" target="_blank" rel="noopener noreferrer" aria-label="The Cloud Workshop Studio on YouTube">
+                <svg class="social-icon" viewBox="0 0 24 24" role="img" aria-hidden="true">
+                    <path d="M23 12s0-3.4-.4-5c-.2-.9-.9-1.6-1.8-1.8C19.2 5 12 5 12 5s-7.2 0-8.8.2c-.9.2-1.6.9-1.8 1.8C1 8.6 1 12 1 12s0 3.4.4 5c.2.9.9 1.6 1.8 1.8C4.8 19 12 19 12 19s7.2 0 8.8-.2c.9-.2 1.6-.9 1.8-1.8.4-1.6.4-5 .4-5zM10 15.5v-7l6 3.5-6 3.5z"></path>
+                </svg>
+            </a>
+        </div>
+    </footer>
 </body>
-
-<footer id="footer">
-    <div class="footer-content">
-        <span>Connect with us:</span>
-        <a href="https://twitter.com/" target="_blank" aria-label="Twitter"><img src="assets/images/twitter.svg" alt="Twitter" class="social-icon"></a>
-        <a href="https://facebook.com/" target="_blank" aria-label="Facebook"><img src="assets/images/facebook.svg" alt="Facebook" class="social-icon"></a>
-        <a href="https://github.com/" target="_blank" aria-label="GitHub"><img src="assets/images/github.svg" alt="GitHub" class="social-icon"></a>
-    </div>
-</footer>
 </html>
